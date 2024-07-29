@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/bw.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/bw.svg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/bw.svg">
+  <link rel="mask-icon" href="/images/bw.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha256-XOqroi11tY4EFQMR9ZYwZWKj5ZXiftSx36RRuC3anlA=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"acrisps.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.20.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概念模型 实体（entity） 属性（attribute） 码（key）：唯一标识实体的属性集 实体型：实体名 + 属性名 联系：一对一、多对多、一对多 E-R图  关系的完整性 实体完整性  某一属性组的值能唯一标识一个元组，而其子集不能——候选码，选定一个作为主码。候选码里的属性为主属性。  主属性不能取空（NULL）    参照完整性  外码 属性（组）F是外码，与关系S的主码对应，则F上：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库基础">
+<meta property="og:url" content="https://acrisps.github.io/sql/db2/index.html">
+<meta property="og:site_name" content="A cyl&#39;s blog">
+<meta property="og:description" content="概念模型 实体（entity） 属性（attribute） 码（key）：唯一标识实体的属性集 实体型：实体名 + 属性名 联系：一对一、多对多、一对多 E-R图  关系的完整性 实体完整性  某一属性组的值能唯一标识一个元组，而其子集不能——候选码，选定一个作为主码。候选码里的属性为主属性。  主属性不能取空（NULL）    参照完整性  外码 属性（组）F是外码，与关系S的主码对应，则F上：">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-07-29T14:00:00.000Z">
+<meta property="article:modified_time" content="2024-07-29T15:19:57.820Z">
+<meta property="article:author" content="Chen YL">
+<meta property="article:tag" content="keyword1, keyword2, keyword3">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://acrisps.github.io/sql/db2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://acrisps.github.io/sql/db2/","path":"sql/db2/","title":"数据库基础"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>数据库基础 | A cyl's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">A cyl's blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">hello world</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">概念模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E7%9A%84%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">关系的完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91"><span class="nav-number">3.</span> <span class="nav-text">并发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NoSQL"><span class="nav-number">4.</span> <span class="nav-text">NoSQL</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Chen YL</p>
+  <div class="site-description" itemprop="description">一个人</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/acrisps" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;acrisps" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/ylchen@163.com" title="E-Mail → ylchen@163.com" rel="noopener me"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.yuque.com/acrisps" title="语雀 → https:&#x2F;&#x2F;www.yuque.com&#x2F;acrisps" rel="noopener me" target="_blank"><i class="fa-solid fa-leaf fa-fw"></i>语雀</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <a href="https://itxia.club/" title="https:&#x2F;&#x2F;itxia.club" rel="noopener" target="_blank">IT🦐</a>
+            </li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://acrisps.github.io/sql/db2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chen YL">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="A cyl's blog">
+      <meta itemprop="description" content="一个人">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="数据库基础 | A cyl's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库基础
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2024-07-29 22:00:00 / Modified: 23:19:57" itemprop="dateCreated datePublished" datetime="2024-07-29T22:00:00+08:00">2024-07-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="概念模型"><a href="#概念模型" class="headerlink" title="概念模型"></a>概念模型</h2><ul>
+<li>实体（entity）</li>
+<li>属性（attribute）</li>
+<li>码（key）：唯一标识实体的属性集</li>
+<li>实体型：实体名 + 属性名</li>
+<li>联系：一对一、多对多、一对多</li>
+<li>E-R图</li>
+</ul>
+<h2 id="关系的完整性"><a href="#关系的完整性" class="headerlink" title="关系的完整性"></a>关系的完整性</h2><ul>
+<li><p>实体完整性</p>
+<ul>
+<li><p>某一属性组的值能唯一标识一个元组，而其子集不能——候选码，选定一个作为主码。候选码里的属性为主属性。</p>
+</li>
+<li><p>主属性不能取空（NULL）</p>
+</li>
+</ul>
+</li>
+<li><p>参照完整性</p>
+<ul>
+<li>外码</li>
+<li>属性（组）F是外码，与关系S的主码对应，则F上：<ul>
+<li>或者为空（NULL）</li>
+<li>或者为S中的主码值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>用户定义的完整性</p>
+<ul>
+<li><p>例如某个属性要取唯一值等</p>
+</li>
+<li><p>由用户设置</p>
+</li>
+<li><p>not null、unique</p>
+</li>
+<li><p><code>CHECK</code></p>
+<ul>
+<li><pre><code class="sql">CREATE TABLE Student
+(...,
+ Ssex CHAR(2) CHECK(Ssex IN (&#39;男&#39;,&#39;女&#39;)),
+ ...
+);
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">- 完整性约束命名子句</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    xxxxxxxxxx CREATE TABLE Student</span><br><span class="line">    (...,</span><br><span class="line">     Ssex CHAR(2)</span><br><span class="line">     	CONSTRAINT C1 CHECK(Ssex IN (&#x27;男&#x27;,&#x27;女&#x27;)),</span><br><span class="line">     	CONSTRAINT C2 PRIMARY KEY(Sno),</span><br><span class="line">     ...</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code class="sql">/* 删除约束 */
+ALTER TABLE Student
+    DROP CONSTRAINT c1;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 关系代数</span><br><span class="line"></span><br><span class="line">- 集合运算</span><br><span class="line"></span><br><span class="line">  - 并</span><br><span class="line">  - 差</span><br><span class="line">  - 交</span><br><span class="line">  - 笛卡尔积</span><br><span class="line"></span><br><span class="line">- 专门的关系运算</span><br><span class="line"></span><br><span class="line">  - 选择</span><br><span class="line">    - σ~F~(R)，F为条件</span><br><span class="line">    - 查询软件学院的全部学生：σ~Sdept=&#x27;SE&#x27;~(Student)</span><br><span class="line">  - 投影</span><br><span class="line">    - 选择若干列</span><br><span class="line">    - Π~A~(R)，A为属性</span><br><span class="line">    - 选择名字，系别两列：Π~Sname,Sdpt~(Student)</span><br><span class="line"></span><br><span class="line">  - 连接</span><br><span class="line">    - 从两个关系的笛卡尔积里选择符合条件的</span><br><span class="line">    - R⋈S，⋈下写条件</span><br><span class="line">    - 自然连接：同名属性 + 等值链接 + 去重</span><br><span class="line">    - 外连接：左外连接即保留左边的悬浮元组，空缺属性填NULL，其他同理</span><br><span class="line">  - 除</span><br><span class="line"></span><br><span class="line">## SQL</span><br><span class="line"></span><br><span class="line">- 定义模式</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    CREATE SCHEMA test AUTHORIZATION cyl</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>模式名默认为用户名</p>
+</li>
+</ul>
+</li>
+<li><p>删除模式</p>
+<ul>
+<li><pre><code class="sql">DROP SCHEMA test &lt;CASCADE|RESTRICT&gt;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - cascade级联删除，restrict限制删除</span><br><span class="line"></span><br><span class="line">- 定义基本表</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    CREATE TABLE SC</span><br><span class="line">    (Sno CHAR(9) NOT NULL,</span><br><span class="line">     Cno CHAR(4),</span><br><span class="line">     Grade INT,</span><br><span class="line">     PRIMARY KEY (Sno,Cno),</span><br><span class="line">     FOREIGN KEY (Sno) REFERENCES Student(Sno),</span><br><span class="line">     FOREIGN KEY (Cno) REFERENCES Course(Cno)</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p><code>UNIQUE</code>、<code>PRRIMARY KEY</code>等</p>
+</li>
+</ul>
+</li>
+<li><p>修改基本表</p>
+<ul>
+<li><pre><code class="sql">ALTER TABLE Student ADD S_entrance DATE; /* 添加入学时间列，类型为DATE */
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  ALTER TABLE Student ALTER S_entrance INT; /* 修改入学时间列，类型变为INT */</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code class="sql">ALTER TABLE Student ADD UNIQUE(Sno); /* 添加约束条件 */
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  ALTER TABLE Student DROP S_entrance CASCADE; /* 级联删除列 */</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>删除基本表</p>
+<ul>
+<li>类似删除模式</li>
+</ul>
+</li>
+<li><p>建立索引</p>
+<ul>
+<li><pre><code class="sql">CREATE [UNIQUE][CLUSTER] INDEX &lt;索引名&gt; ON &lt;表名&gt;(&lt;列信息&gt;);
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  CREATE UNIQUE INDEX SCno ON SC(Sno ASC,Cno DESC);</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>删除索引</p>
+<ul>
+<li><pre><code class="sql">DROP INDEX &lt;索引名&gt;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 数据查询</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    SELECT [ALL|DISTINCT] &lt;...&gt;</span><br><span class="line">    FROM &lt;表名&gt;... [AS &lt;别名&gt;]</span><br><span class="line">    WHERE &lt;条件&gt;</span><br><span class="line">    GROUP BY ... [HAVING ...]</span><br><span class="line">    ORDER BY ...;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>聚集函数</p>
+<ul>
+<li><code>COUNT</code>、<code>SUM</code>、<code>AVG</code>、<code>MAX</code>……：对列操作</li>
+<li><code>WHERE</code>子句里不使用聚集函数，适用<code>GROUP BY</code> + <code>HAVING</code></li>
+</ul>
+</li>
+<li><p>连接查询</p>
+<ul>
+<li><pre><code class="sql">SELECT Student.Sno, SC.Cno
+FROM Student, SC
+WHERE Studnet.Sno = SC.Sno;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  /* 查询先修课的先修课：自身连接 */</span><br><span class="line">  SELECT SRC.Cno, DEST.Cpno</span><br><span class="line">  FROM Course SRC, Course DEST</span><br><span class="line">  WHERE SRC.Cpno = DEST.Cno;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>嵌套查询</p>
+<ul>
+<li><pre><code class="sql">/* 查询和小明在一个系的学生 */
+SELECT Sno, Sname
+FROM Student
+WHERE Sdept IN
+    (SELECT Sdept
+     FROM Student
+     WHERE Sname = &#39;小明&#39;
+    );
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">  - 相关子查询</span><br><span class="line"></span><br><span class="line">  - `ANY`、`ALL`、`(NOT)EXISTS`</span><br><span class="line"></span><br><span class="line">- 集合查询</span><br><span class="line"></span><br><span class="line">  - 查询A `UNION`/`INTERSECT`/`EXCEPT` 查询B （并/交/差）</span><br><span class="line"></span><br><span class="line">- 派生表查询</span><br><span class="line"></span><br><span class="line">  - 即子查询可以在`FROM`里出现</span><br><span class="line"></span><br><span class="line">- 插入数据</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    INSERT</span><br><span class="line">    INTO SC(Sno, Cno)</span><br><span class="line">    VALUES(&#x27;221250075&#x27;, &#x27;1&#x27;); /* 这一行也可以是子查询结果 */</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>修改数据</p>
+<ul>
+<li><pre><code class="sql">UPDATE Student
+SET Sage = 22
+WHERE Sno = &#39;221250075&#39;;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 删除数据</span><br><span class="line"></span><br><span class="line">  - `DELECT...FROM... WHRER...`</span><br><span class="line"></span><br><span class="line">- 空值`NULL`</span><br><span class="line">  - 逻辑运算：unknown</span><br><span class="line">  - is null、is not null</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 视图</span><br><span class="line"></span><br><span class="line">- 视图是从基本表导出的虚表，只存放视图的定义，不存放真实数据。</span><br><span class="line"></span><br><span class="line">- 建立视图</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">  CREATE VIEW &lt;视图名&gt; []</span><br><span class="line">  AS &lt;子查询&gt;</span><br><span class="line">  [WITH CHECK OPTION] /* 使得修改、插入时自动检查（子查询）条件 */</span><br><span class="line">  </span><br><span class="line">- 删除视图</span><br><span class="line"></span><br><span class="line">  - drop view &lt;view_name&gt; [cascade]</span><br><span class="line"></span><br><span class="line">- 视图的作用</span><br><span class="line">  - 简化用户操作</span><br><span class="line">  - 多种角度看待同一数据</span><br><span class="line">  - 视图屏蔽基本表细节，对重构数据库提供逻辑独立性</span><br><span class="line">  - 保护机密数据</span><br><span class="line">  - 更清晰地表达查询</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 存取控制</span><br><span class="line"></span><br><span class="line">- DAC（自主存取控制）</span><br><span class="line"></span><br><span class="line">  - 授权`GRANT`</span><br><span class="line"></span><br><span class="line">    - ```sql</span><br><span class="line">      GRANT &lt;权限&gt;[,...]...</span><br><span class="line">      ON &lt;对象类型&gt; &lt;对象名&gt;[,...]...</span><br><span class="line">      TO &lt;用户&gt;[,&lt;用户&gt;]...</span><br><span class="line">      [WITH GRANT OPTION];</span><br></pre></td></tr></table></figure>
+
+- ```sql
+  GRANT SELECT
+  ON TABLE SC
+  TO PUBLIC
+  WITH GRANT OPTION;
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - `REVOKE`</span><br><span class="line"></span><br><span class="line">    - `REVOKE... ON... FROM... [CASCADE|RESTRICT]`</span><br><span class="line"></span><br><span class="line">  - 角色</span><br><span class="line"></span><br><span class="line">  - 可能会无意泄露，数据本身没有安全性标记</span><br><span class="line"></span><br><span class="line">- MAC（强制存取控制）</span><br><span class="line"></span><br><span class="line">  - 权限&gt;密级：可访问</span><br><span class="line">  - 权限&lt;密级：可写（防止高权限写低密级，密级下降）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 断言</span><br><span class="line"></span><br><span class="line">- 更一般性的约束</span><br><span class="line"></span><br><span class="line">- 创建断言</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    CREATE ASSERTION &lt;断言名&gt; &lt;CHECK子句&gt;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><pre><code class="sql">CREATE ASSERTION ASSE_SC_SNUM_MAX
+    CHECK(60 &gt;= ALL(SELECT count(*)
+                   FROM SC
+                   GROUP BY(cno))
+         );
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 删除断言</span><br><span class="line"></span><br><span class="line">  - drop assertion &lt;assertion_name&gt;</span><br><span class="line">  </span><br><span class="line">- 在SQL考察</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 触发器</span><br><span class="line"></span><br><span class="line">- 类似于钩子</span><br><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  CREATE TRIGGER &lt;触发器名&gt;</span><br><span class="line">  &#123;BEFORE|AFTER&#125; &lt;事件&gt; ON &lt;表名&gt;</span><br><span class="line">  REFERENCING NEW|OLD ROW AS &lt;变量&gt;</span><br><span class="line">  FOR EACH &#123;ROW|STATEMENT&#125; /* 行级/语句级 */</span><br><span class="line">  [WHEN &lt;条件&gt;] &lt;触发动作&gt;</span><br><span class="line">  </span><br><span class="line">  /*</span><br><span class="line">  事件 = INSERT | DELETE | UPDATE | ... OR ... | UPDATE OF &lt;列&gt;</span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>触发器只能定义在基本表上，而非视图</p>
+</li>
+<li><pre><code class="sql">/* 当对SC的表修改，新成绩增加了超过10%，则记录到另一个表里 */
+CREATE TRIGGER TRI_SC_LOG
+AFTER UPDATE ON SC
+REFERENCING
+    NEW ROW AS NEW_ROW
+    OLD ROW AS OLD_ORW
+FOR EACH ROW
+WHEN (NEW_ROW.Grade &gt; OLD_ROW.Grade * 1.1)
+    INSERT INTO SC_L
+    VALUES(NEW_ROW.Sno, NEW_ROW.Cno, NEW_ROW.Grade, OLD_ROW.Grade);
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 删除触发器</span><br><span class="line"></span><br><span class="line">  - drop trigger &lt;trigger_name&gt; on &lt;table_name&gt;</span><br><span class="line">  </span><br><span class="line">- 在SQL考察</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 范式</span><br><span class="line"></span><br><span class="line">- 多种数据依赖</span><br><span class="line"></span><br><span class="line">  - 函数依赖</span><br><span class="line">    - 由学号确定姓名，y = f(x) 的关系；x一样，y一定一样：x -&gt; y；x称为决定因素</span><br><span class="line">    - x -&gt; y &amp;&amp; x 的任意真子集 -\\-&gt; y，那么y完全函数依赖于x；与之相对是部分函数依赖</span><br><span class="line">  - 多值依赖</span><br><span class="line">    - 有这样一个关系 &lt;仓库管理员，仓库号，库存产品号&gt; ，假设一个产品只能放到一个仓库中，但是一个仓库可以有若干管理员，那么对应于一个 &lt;仓库管理员，库存产品号&gt;有一个仓库号，而实际上，这个仓库号只与库存产品号有关，与管理员无关，就说这是多值依赖。</span><br><span class="line">- 码</span><br><span class="line">  - 见“关系的完整性”</span><br><span class="line">- 范式</span><br><span class="line">  - 低级范式模式分解可以得到高级范式 ，这个过程叫规范化</span><br><span class="line">- 1NF</span><br><span class="line">  - 满足每个分量不可分即可</span><br><span class="line">- 2NF</span><br><span class="line">  - 在1NF的基础上：非主属性完全依赖于任何一个候选码</span><br><span class="line">  - 如（学号，专业，课程号，分数）中，码为（学号，课程号），专业并不依赖于课程号，不符合2NF。</span><br><span class="line">  - 若不符合2NF</span><br><span class="line">    - 插入异常：没选课没法插入学生信息</span><br><span class="line">    - 删除异常：退选课把自己也删了</span><br><span class="line">    - 修改复杂：若多选课，修改专业时需要修改多行</span><br><span class="line">  - 如何修改：投影分解，将不是完全函数依赖的分离开</span><br><span class="line">- 3NF</span><br><span class="line">  - 非主属性既不部分依赖，也不传递依赖于码</span><br><span class="line">  - （学号，专业，院楼）中，专业依赖于学号，院楼依赖于专业，间接依赖于学号，不符合3NF。</span><br><span class="line">  - 不符合3NF会有类似2NF的问题，如改专业了，同时修改（专业，院楼）</span><br><span class="line">- BCNF</span><br><span class="line">  - 每一个决定因素都包含码</span><br><span class="line">  - 即，依赖于码的同时，不能依赖于非码（不包含码的）</span><br><span class="line">- 4NF</span><br><span class="line">  - 不允许非平凡非函数依赖的多值依赖</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 概念模型</span><br><span class="line"></span><br><span class="line">- 特点：</span><br><span class="line">  - 真实反映现实世界</span><br><span class="line">  - 易于理解</span><br><span class="line">  - 易于更改</span><br><span class="line">  - 易于向其他数据模型转换</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 事务 检查点恢复</span><br><span class="line"></span><br><span class="line">- 要么不做，要么全做</span><br><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  BEGIN TRANSACTION</span><br><span class="line">  COMMIT</span><br><span class="line">  ROLLBACK;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>ACID</p>
+<ul>
+<li>原子性：不做、全做</li>
+<li>一致性：没有做到不做或全做会导致数据库失去一致性</li>
+<li>隔离性：事务间不能相互干扰</li>
+<li>持续性：永久性，一旦提交，永久更改</li>
+</ul>
+</li>
+<li><p>故障</p>
+<ul>
+<li>事物内部故障<ul>
+<li>恢复：逆序看log，反向操作该事务所有操作</li>
+</ul>
+</li>
+<li>系统故障<ul>
+<li>恢复：正向看log，已提交的重做（重复执行log），未完成的撤销</li>
+</ul>
+</li>
+<li>介质故障<ul>
+<li>恢复：重装-重做</li>
+</ul>
+</li>
+<li>计算机病毒</li>
+</ul>
+</li>
+<li><p>数据转储</p>
+<ul>
+<li>装入后备副本，重新运行运行转储后所有更新事务</li>
+<li>静态转储：停数据库，转储</li>
+<li>动态转储：转储、用户事务并发 + 日志文件</li>
+</ul>
+</li>
+<li><p>日志文件</p>
+<ul>
+<li>记录事务对数据库更新操作的文件</li>
+<li>包括：开始<code>BEGIN TRANSACTION</code>标记、<code>COMMIT|ROLLBACK</code>结束标记、更新操作</li>
+<li>作用：<ul>
+<li>事务故障恢复</li>
+<li>系统故障恢复</li>
+<li>动态转储必需</li>
+<li>由转储状态到故障前状态，不必运行已完成的事务程序</li>
+</ul>
+</li>
+<li>严格按时间顺序；先写日志后写数据库</li>
+</ul>
+</li>
+<li><p>检查点</p>
+<ul>
+<li><p>记录了：检查点建立时所有活动的事务以及它们日志的地址</p>
+</li>
+<li><p>重新开始文件记录了检查点记录在日志里的地址</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><ul>
+<li>封锁<ul>
+<li>先加锁，再操作：排他锁-写锁、共享锁-读锁</li>
+<li>IS、IX、SIX（读，写子）</li>
+</ul>
+</li>
+<li>时间戳、乐观锁、多版本并发控制</li>
+</ul>
+<h2 id="NoSQL"><a href="#NoSQL" class="headerlink" title="NoSQL"></a>NoSQL</h2><ul>
+<li>阻抗失谐：关系模型和内存中的数据结构之间存在差异</li>
+<li>SQL有强一致性，不便于大规模分布式集群</li>
+<li>分布式的非关系型数据库</li>
+<li>仲裁<ul>
+<li><p>写入仲裁(write quorum)：</p>
+<ul>
+<li>如果发生两个相互冲突的写入操作，那么只有其中一个操作能为超过半数的节点所认可，W&gt;N&#x2F;2 。即，参与写入操作的节点数(W)，必须超过副本节点数(N)的一半。副本个数又称为“复制因子（对等式分布模型）</li>
+<li>只需要向主节点中写入数据（主从式分布模型）</li>
+</ul>
+</li>
+<li><p>读取仲裁</p>
+<ul>
+<li>只有当R+W&gt;N时，才能保证读取操作的“强一致性”。其中，执行读取操作时所需联系的节点数(R)，确认写入操作时所需征询的节点数(W)，以及复制因子(N)（对等式分布模型）</li>
+<li>n只需从主节点中读取数据（主从式分布模型）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>键值数据库<ul>
+<li>用户配置信息、购物车</li>
+</ul>
+</li>
+<li>文档数据库<ul>
+<li>事件记录、内容管理系统及博客平台</li>
+</ul>
+</li>
+<li>列族数据库<ul>
+<li>事件记录、内容管理系统及博客平台、计数器</li>
+</ul>
+</li>
+<li>图数据库<ul>
+<li>互联数据、社交网络、安排运输路线、分派货物和基于位置的服务、推荐引擎</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/cloud-native/simple-example/" rel="prev" title="简单微服务">
+                  <i class="fa fa-angle-left"></i> 简单微服务
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Chen YL</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
