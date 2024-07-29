@@ -209,7 +209,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2024-07-29 22:00:00 / Modified: 23:19:57" itemprop="dateCreated datePublished" datetime="2024-07-29T22:00:00+08:00">2024-07-29</time>
+      <time title="Created: 2024-07-29 22:00:00 / Modified: 23:31:33" itemprop="dateCreated datePublished" datetime="2024-07-29T22:00:00+08:00">2024-07-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -267,48 +267,81 @@
 <li><p>not null、unique</p>
 </li>
 <li><p><code>CHECK</code></p>
-<ul>
-<li><pre><code class="sql">CREATE TABLE Student
-(...,
- Ssex CHAR(2) CHECK(Ssex IN (&#39;男&#39;,&#39;女&#39;)),
- ...
-);
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">- 完整性约束命名子句</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    xxxxxxxxxx CREATE TABLE Student</span><br><span class="line">    (...,</span><br><span class="line">     Ssex CHAR(2)</span><br><span class="line">     	CONSTRAINT C1 CHECK(Ssex IN (&#x27;男&#x27;,&#x27;女&#x27;)),</span><br><span class="line">     	CONSTRAINT C2 PRIMARY KEY(Sno),</span><br><span class="line">     ...</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
-</code></pre>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">(...,</span><br><span class="line"> Ssex <span class="type">CHAR</span>(<span class="number">2</span>) <span class="keyword">CHECK</span>(Ssex <span class="keyword">IN</span> (<span class="string">&#x27;男&#x27;</span>,<span class="string">&#x27;女&#x27;</span>)),</span><br><span class="line"> ...</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 </li>
-<li><pre><code class="sql">/* 删除约束 */
-ALTER TABLE Student
-    DROP CONSTRAINT c1;
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 关系代数</span><br><span class="line"></span><br><span class="line">- 集合运算</span><br><span class="line"></span><br><span class="line">  - 并</span><br><span class="line">  - 差</span><br><span class="line">  - 交</span><br><span class="line">  - 笛卡尔积</span><br><span class="line"></span><br><span class="line">- 专门的关系运算</span><br><span class="line"></span><br><span class="line">  - 选择</span><br><span class="line">    - σ~F~(R)，F为条件</span><br><span class="line">    - 查询软件学院的全部学生：σ~Sdept=&#x27;SE&#x27;~(Student)</span><br><span class="line">  - 投影</span><br><span class="line">    - 选择若干列</span><br><span class="line">    - Π~A~(R)，A为属性</span><br><span class="line">    - 选择名字，系别两列：Π~Sname,Sdpt~(Student)</span><br><span class="line"></span><br><span class="line">  - 连接</span><br><span class="line">    - 从两个关系的笛卡尔积里选择符合条件的</span><br><span class="line">    - R⋈S，⋈下写条件</span><br><span class="line">    - 自然连接：同名属性 + 等值链接 + 去重</span><br><span class="line">    - 外连接：左外连接即保留左边的悬浮元组，空缺属性填NULL，其他同理</span><br><span class="line">  - 除</span><br><span class="line"></span><br><span class="line">## SQL</span><br><span class="line"></span><br><span class="line">- 定义模式</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    CREATE SCHEMA test AUTHORIZATION cyl</span><br></pre></td></tr></table></figure>
-</code></pre>
+<li><p>完整性约束命名子句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xxxxxxxxxx <span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">(...,</span><br><span class="line"> Ssex <span class="type">CHAR</span>(<span class="number">2</span>)</span><br><span class="line"> 	<span class="keyword">CONSTRAINT</span> C1 <span class="keyword">CHECK</span>(Ssex <span class="keyword">IN</span> (<span class="string">&#x27;男&#x27;</span>,<span class="string">&#x27;女&#x27;</span>)),</span><br><span class="line"> 	<span class="keyword">CONSTRAINT</span> C2 <span class="keyword">PRIMARY</span> KEY(Sno),</span><br><span class="line"> ...</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 删除约束 */</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student</span><br><span class="line">	<span class="keyword">DROP</span> <span class="keyword">CONSTRAINT</span> c1;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h2 id="关系代数"><a href="#关系代数" class="headerlink" title="关系代数"></a>关系代数</h2><ul>
+<li><p>集合运算</p>
+<ul>
+<li>并</li>
+<li>差</li>
+<li>交</li>
+<li>笛卡尔积</li>
+</ul>
+</li>
+<li><p>专门的关系运算</p>
+<ul>
+<li><p>选择</p>
+<ul>
+<li>σ<del>F</del>(R)，F为条件</li>
+<li>查询软件学院的全部学生：σ<del>Sdept&#x3D;’SE’</del>(Student)</li>
+</ul>
+</li>
+<li><p>投影</p>
+<ul>
+<li>选择若干列</li>
+<li>Π<del>A</del>(R)，A为属性</li>
+<li>选择名字，系别两列：Π<del>Sname,Sdpt</del>(Student)</li>
+</ul>
+</li>
+<li><p>连接</p>
+<ul>
+<li>从两个关系的笛卡尔积里选择符合条件的</li>
+<li>R⋈S，⋈下写条件</li>
+<li>自然连接：同名属性 + 等值链接 + 去重</li>
+<li>外连接：左外连接即保留左边的悬浮元组，空缺属性填NULL，其他同理</li>
+</ul>
+</li>
+<li><p>除</p>
 </li>
 </ul>
 </li>
-<li><p>模式名默认为用户名</p>
-</li>
+</ul>
+<h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><ul>
+<li><p>定义模式</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> SCHEMA test <span class="keyword">AUTHORIZATION</span> cyl</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>模式名默认为用户名</li>
 </ul>
 </li>
 <li><p>删除模式</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> SCHEMA test <span class="operator">&lt;</span>CASCADE<span class="operator">|</span>RESTRICT<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+
 <ul>
-<li><pre><code class="sql">DROP SCHEMA test &lt;CASCADE|RESTRICT&gt;
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - cascade级联删除，restrict限制删除</span><br><span class="line"></span><br><span class="line">- 定义基本表</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    CREATE TABLE SC</span><br><span class="line">    (Sno CHAR(9) NOT NULL,</span><br><span class="line">     Cno CHAR(4),</span><br><span class="line">     Grade INT,</span><br><span class="line">     PRIMARY KEY (Sno,Cno),</span><br><span class="line">     FOREIGN KEY (Sno) REFERENCES Student(Sno),</span><br><span class="line">     FOREIGN KEY (Cno) REFERENCES Course(Cno)</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
-</code></pre>
+<li>cascade级联删除，restrict限制删除</li>
+</ul>
 </li>
-<li><p><code>UNIQUE</code>、<code>PRRIMARY KEY</code>等</p>
-</li>
+<li><p>定义基本表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> SC</span><br><span class="line">(Sno <span class="type">CHAR</span>(<span class="number">9</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"> Cno <span class="type">CHAR</span>(<span class="number">4</span>),</span><br><span class="line"> Grade <span class="type">INT</span>,</span><br><span class="line"> <span class="keyword">PRIMARY</span> KEY (Sno,Cno),</span><br><span class="line"> <span class="keyword">FOREIGN</span> KEY (Sno) <span class="keyword">REFERENCES</span> Student(Sno),</span><br><span class="line"> <span class="keyword">FOREIGN</span> KEY (Cno) <span class="keyword">REFERENCES</span> Course(Cno)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>UNIQUE</code>、<code>PRRIMARY KEY</code>等</li>
 </ul>
 </li>
 <li><p>修改基本表</p>
-<ul>
-<li><pre><code class="sql">ALTER TABLE Student ADD S_entrance DATE; /* 添加入学时间列，类型为DATE */
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  ALTER TABLE Student ALTER S_entrance INT; /* 修改入学时间列，类型变为INT */</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><pre><code class="sql">ALTER TABLE Student ADD UNIQUE(Sno); /* 添加约束条件 */
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  ALTER TABLE Student DROP S_entrance CASCADE; /* 级联删除列 */</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student <span class="keyword">ADD</span> S_entrance <span class="type">DATE</span>; <span class="comment">/* 添加入学时间列，类型为DATE */</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student <span class="keyword">ALTER</span> S_entrance <span class="type">INT</span>; <span class="comment">/* 修改入学时间列，类型变为INT */</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student <span class="keyword">ADD</span> <span class="keyword">UNIQUE</span>(Sno); <span class="comment">/* 添加约束条件 */</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Student <span class="keyword">DROP</span> S_entrance CASCADE; <span class="comment">/* 级联删除列 */</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>删除基本表</p>
 <ul>
@@ -316,20 +349,15 @@ ALTER TABLE Student
 </ul>
 </li>
 <li><p>建立索引</p>
-<ul>
-<li><pre><code class="sql">CREATE [UNIQUE][CLUSTER] INDEX &lt;索引名&gt; ON &lt;表名&gt;(&lt;列信息&gt;);
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  CREATE UNIQUE INDEX SCno ON SC(Sno ASC,Cno DESC);</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> [<span class="keyword">UNIQUE</span>][CLUSTER] INDEX <span class="operator">&lt;</span>索引名<span class="operator">&gt;</span> <span class="keyword">ON</span> <span class="operator">&lt;</span>表名<span class="operator">&gt;</span>(<span class="operator">&lt;</span>列信息<span class="operator">&gt;</span>);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">UNIQUE</span> INDEX SCno <span class="keyword">ON</span> SC(Sno <span class="keyword">ASC</span>,Cno <span class="keyword">DESC</span>);</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>删除索引</p>
-<ul>
-<li><pre><code class="sql">DROP INDEX &lt;索引名&gt;
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 数据查询</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    SELECT [ALL|DISTINCT] &lt;...&gt;</span><br><span class="line">    FROM &lt;表名&gt;... [AS &lt;别名&gt;]</span><br><span class="line">    WHERE &lt;条件&gt;</span><br><span class="line">    GROUP BY ... [HAVING ...]</span><br><span class="line">    ORDER BY ...;</span><br></pre></td></tr></table></figure>
-</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> INDEX <span class="operator">&lt;</span>索引名<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
-</ul>
+<li><p>数据查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> [<span class="keyword">ALL</span><span class="operator">|</span><span class="keyword">DISTINCT</span>] <span class="operator">&lt;</span>...<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">FROM</span> <span class="operator">&lt;</span>表名<span class="operator">&gt;</span>... [<span class="keyword">AS</span> <span class="operator">&lt;</span>别名<span class="operator">&gt;</span>]</span><br><span class="line"><span class="keyword">WHERE</span> <span class="operator">&lt;</span>条件<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> ... [<span class="keyword">HAVING</span> ...]</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> ...;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>聚集函数</p>
 <ul>
@@ -338,70 +366,205 @@ ALTER TABLE Student
 </ul>
 </li>
 <li><p>连接查询</p>
-<ul>
-<li><pre><code class="sql">SELECT Student.Sno, SC.Cno
-FROM Student, SC
-WHERE Studnet.Sno = SC.Sno;
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  /* 查询先修课的先修课：自身连接 */</span><br><span class="line">  SELECT SRC.Cno, DEST.Cpno</span><br><span class="line">  FROM Course SRC, Course DEST</span><br><span class="line">  WHERE SRC.Cpno = DEST.Cno;</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Student.Sno, SC.Cno</span><br><span class="line"><span class="keyword">FROM</span> Student, SC</span><br><span class="line"><span class="keyword">WHERE</span> Studnet.Sno <span class="operator">=</span> SC.Sno;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 查询先修课的先修课：自身连接 */</span></span><br><span class="line"><span class="keyword">SELECT</span> SRC.Cno, DEST.Cpno</span><br><span class="line"><span class="keyword">FROM</span> Course SRC, Course DEST</span><br><span class="line"><span class="keyword">WHERE</span> SRC.Cpno <span class="operator">=</span> DEST.Cno;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>嵌套查询</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 查询和小明在一个系的学生 */</span></span><br><span class="line"><span class="keyword">SELECT</span> Sno, Sname</span><br><span class="line"><span class="keyword">FROM</span> Student</span><br><span class="line"><span class="keyword">WHERE</span> Sdept <span class="keyword">IN</span></span><br><span class="line">	(<span class="keyword">SELECT</span> Sdept</span><br><span class="line">     <span class="keyword">FROM</span> Student</span><br><span class="line">     <span class="keyword">WHERE</span> Sname <span class="operator">=</span> <span class="string">&#x27;小明&#x27;</span></span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
 <ul>
-<li><pre><code class="sql">/* 查询和小明在一个系的学生 */
-SELECT Sno, Sname
-FROM Student
-WHERE Sdept IN
-    (SELECT Sdept
-     FROM Student
-     WHERE Sname = &#39;小明&#39;
-    );
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">  - 相关子查询</span><br><span class="line"></span><br><span class="line">  - `ANY`、`ALL`、`(NOT)EXISTS`</span><br><span class="line"></span><br><span class="line">- 集合查询</span><br><span class="line"></span><br><span class="line">  - 查询A `UNION`/`INTERSECT`/`EXCEPT` 查询B （并/交/差）</span><br><span class="line"></span><br><span class="line">- 派生表查询</span><br><span class="line"></span><br><span class="line">  - 即子查询可以在`FROM`里出现</span><br><span class="line"></span><br><span class="line">- 插入数据</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    INSERT</span><br><span class="line">    INTO SC(Sno, Cno)</span><br><span class="line">    VALUES(&#x27;221250075&#x27;, &#x27;1&#x27;); /* 这一行也可以是子查询结果 */</span><br></pre></td></tr></table></figure>
-</code></pre>
+<li><p>相关子查询</p>
+</li>
+<li><p><code>ANY</code>、<code>ALL</code>、<code>(NOT)EXISTS</code></p>
 </li>
 </ul>
+</li>
+<li><p>集合查询</p>
+<ul>
+<li>查询A <code>UNION</code>&#x2F;<code>INTERSECT</code>&#x2F;<code>EXCEPT</code> 查询B （并&#x2F;交&#x2F;差）</li>
+</ul>
+</li>
+<li><p>派生表查询</p>
+<ul>
+<li>即子查询可以在<code>FROM</code>里出现</li>
+</ul>
+</li>
+<li><p>插入数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span></span><br><span class="line"><span class="keyword">INTO</span> SC(Sno, Cno)</span><br><span class="line"><span class="keyword">VALUES</span>(<span class="string">&#x27;221250075&#x27;</span>, <span class="string">&#x27;1&#x27;</span>); <span class="comment">/* 这一行也可以是子查询结果 */</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>修改数据</p>
-<ul>
-<li><pre><code class="sql">UPDATE Student
-SET Sage = 22
-WHERE Sno = &#39;221250075&#39;;
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 删除数据</span><br><span class="line"></span><br><span class="line">  - `DELECT...FROM... WHRER...`</span><br><span class="line"></span><br><span class="line">- 空值`NULL`</span><br><span class="line">  - 逻辑运算：unknown</span><br><span class="line">  - is null、is not null</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 视图</span><br><span class="line"></span><br><span class="line">- 视图是从基本表导出的虚表，只存放视图的定义，不存放真实数据。</span><br><span class="line"></span><br><span class="line">- 建立视图</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">  CREATE VIEW &lt;视图名&gt; []</span><br><span class="line">  AS &lt;子查询&gt;</span><br><span class="line">  [WITH CHECK OPTION] /* 使得修改、插入时自动检查（子查询）条件 */</span><br><span class="line">  </span><br><span class="line">- 删除视图</span><br><span class="line"></span><br><span class="line">  - drop view &lt;view_name&gt; [cascade]</span><br><span class="line"></span><br><span class="line">- 视图的作用</span><br><span class="line">  - 简化用户操作</span><br><span class="line">  - 多种角度看待同一数据</span><br><span class="line">  - 视图屏蔽基本表细节，对重构数据库提供逻辑独立性</span><br><span class="line">  - 保护机密数据</span><br><span class="line">  - 更清晰地表达查询</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 存取控制</span><br><span class="line"></span><br><span class="line">- DAC（自主存取控制）</span><br><span class="line"></span><br><span class="line">  - 授权`GRANT`</span><br><span class="line"></span><br><span class="line">    - ```sql</span><br><span class="line">      GRANT &lt;权限&gt;[,...]...</span><br><span class="line">      ON &lt;对象类型&gt; &lt;对象名&gt;[,...]...</span><br><span class="line">      TO &lt;用户&gt;[,&lt;用户&gt;]...</span><br><span class="line">      [WITH GRANT OPTION];</span><br></pre></td></tr></table></figure>
-
-- ```sql
-  GRANT SELECT
-  ON TABLE SC
-  TO PUBLIC
-  WITH GRANT OPTION;
-  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  - `REVOKE`</span><br><span class="line"></span><br><span class="line">    - `REVOKE... ON... FROM... [CASCADE|RESTRICT]`</span><br><span class="line"></span><br><span class="line">  - 角色</span><br><span class="line"></span><br><span class="line">  - 可能会无意泄露，数据本身没有安全性标记</span><br><span class="line"></span><br><span class="line">- MAC（强制存取控制）</span><br><span class="line"></span><br><span class="line">  - 权限&gt;密级：可访问</span><br><span class="line">  - 权限&lt;密级：可写（防止高权限写低密级，密级下降）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 断言</span><br><span class="line"></span><br><span class="line">- 更一般性的约束</span><br><span class="line"></span><br><span class="line">- 创建断言</span><br><span class="line"></span><br><span class="line">  - ```sql</span><br><span class="line">    CREATE ASSERTION &lt;断言名&gt; &lt;CHECK子句&gt;</span><br></pre></td></tr></table></figure>
-</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> Student</span><br><span class="line"><span class="keyword">SET</span> Sage <span class="operator">=</span> <span class="number">22</span></span><br><span class="line"><span class="keyword">WHERE</span> Sno <span class="operator">=</span> <span class="string">&#x27;221250075&#x27;</span>;</span><br></pre></td></tr></table></figure>
 </li>
-<li><pre><code class="sql">CREATE ASSERTION ASSE_SC_SNUM_MAX
-    CHECK(60 &gt;= ALL(SELECT count(*)
-                   FROM SC
-                   GROUP BY(cno))
-         );
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 删除断言</span><br><span class="line"></span><br><span class="line">  - drop assertion &lt;assertion_name&gt;</span><br><span class="line">  </span><br><span class="line">- 在SQL考察</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 触发器</span><br><span class="line"></span><br><span class="line">- 类似于钩子</span><br><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  CREATE TRIGGER &lt;触发器名&gt;</span><br><span class="line">  &#123;BEFORE|AFTER&#125; &lt;事件&gt; ON &lt;表名&gt;</span><br><span class="line">  REFERENCING NEW|OLD ROW AS &lt;变量&gt;</span><br><span class="line">  FOR EACH &#123;ROW|STATEMENT&#125; /* 行级/语句级 */</span><br><span class="line">  [WHEN &lt;条件&gt;] &lt;触发动作&gt;</span><br><span class="line">  </span><br><span class="line">  /*</span><br><span class="line">  事件 = INSERT | DELETE | UPDATE | ... OR ... | UPDATE OF &lt;列&gt;</span><br><span class="line">  */</span><br></pre></td></tr></table></figure>
-</code></pre>
+<li><p>删除数据</p>
+<ul>
+<li><code>DELECT...FROM... WHRER...</code></li>
+</ul>
+</li>
+<li><p>空值<code>NULL</code></p>
+<ul>
+<li>逻辑运算：unknown</li>
+<li>is null、is not null</li>
+</ul>
+</li>
+</ul>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><ul>
+<li><p>视图是从基本表导出的虚表，只存放视图的定义，不存放真实数据。</p>
+</li>
+<li><p>建立视图</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">VIEW</span> <span class="operator">&lt;</span>视图名<span class="operator">&gt;</span> []</span><br><span class="line"><span class="keyword">AS</span> <span class="operator">&lt;</span>子查询<span class="operator">&gt;</span></span><br><span class="line">[<span class="keyword">WITH</span> <span class="keyword">CHECK</span> OPTION] <span class="comment">/* 使得修改、插入时自动检查（子查询）条件 */</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除视图</p>
+<ul>
+<li>drop view <view_name> [cascade]</li>
+</ul>
+</li>
+<li><p>视图的作用</p>
+<ul>
+<li>简化用户操作</li>
+<li>多种角度看待同一数据</li>
+<li>视图屏蔽基本表细节，对重构数据库提供逻辑独立性</li>
+<li>保护机密数据</li>
+<li>更清晰地表达查询</li>
+</ul>
+</li>
+</ul>
+<h2 id="存取控制"><a href="#存取控制" class="headerlink" title="存取控制"></a>存取控制</h2><ul>
+<li><p>DAC（自主存取控制）</p>
+<ul>
+<li><p>授权<code>GRANT</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="operator">&lt;</span>权限<span class="operator">&gt;</span>[,...]...</span><br><span class="line"><span class="keyword">ON</span> <span class="operator">&lt;</span>对象类型<span class="operator">&gt;</span> <span class="operator">&lt;</span>对象名<span class="operator">&gt;</span>[,...]...</span><br><span class="line"><span class="keyword">TO</span> <span class="operator">&lt;</span>用户<span class="operator">&gt;</span>[,<span class="operator">&lt;</span>用户<span class="operator">&gt;</span>]...</span><br><span class="line">[<span class="keyword">WITH</span> <span class="keyword">GRANT</span> OPTION];</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span></span><br><span class="line"><span class="keyword">ON</span> <span class="keyword">TABLE</span> SC</span><br><span class="line"><span class="keyword">TO</span> PUBLIC</span><br><span class="line"><span class="keyword">WITH</span> <span class="keyword">GRANT</span> OPTION;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>REVOKE</code></p>
+<ul>
+<li><code>REVOKE... ON... FROM... [CASCADE|RESTRICT]</code></li>
+</ul>
+</li>
+<li><p>角色</p>
+</li>
+<li><p>可能会无意泄露，数据本身没有安全性标记</p>
 </li>
 </ul>
 </li>
-<li><p>触发器只能定义在基本表上，而非视图</p>
+<li><p>MAC（强制存取控制）</p>
+<ul>
+<li>权限&gt;密级：可访问</li>
+<li>权限&lt;密级：可写（防止高权限写低密级，密级下降）</li>
+</ul>
 </li>
-<li><pre><code class="sql">/* 当对SC的表修改，新成绩增加了超过10%，则记录到另一个表里 */
-CREATE TRIGGER TRI_SC_LOG
-AFTER UPDATE ON SC
-REFERENCING
-    NEW ROW AS NEW_ROW
-    OLD ROW AS OLD_ORW
-FOR EACH ROW
-WHEN (NEW_ROW.Grade &gt; OLD_ROW.Grade * 1.1)
-    INSERT INTO SC_L
-    VALUES(NEW_ROW.Sno, NEW_ROW.Cno, NEW_ROW.Grade, OLD_ROW.Grade);
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 删除触发器</span><br><span class="line"></span><br><span class="line">  - drop trigger &lt;trigger_name&gt; on &lt;table_name&gt;</span><br><span class="line">  </span><br><span class="line">- 在SQL考察</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 范式</span><br><span class="line"></span><br><span class="line">- 多种数据依赖</span><br><span class="line"></span><br><span class="line">  - 函数依赖</span><br><span class="line">    - 由学号确定姓名，y = f(x) 的关系；x一样，y一定一样：x -&gt; y；x称为决定因素</span><br><span class="line">    - x -&gt; y &amp;&amp; x 的任意真子集 -\\-&gt; y，那么y完全函数依赖于x；与之相对是部分函数依赖</span><br><span class="line">  - 多值依赖</span><br><span class="line">    - 有这样一个关系 &lt;仓库管理员，仓库号，库存产品号&gt; ，假设一个产品只能放到一个仓库中，但是一个仓库可以有若干管理员，那么对应于一个 &lt;仓库管理员，库存产品号&gt;有一个仓库号，而实际上，这个仓库号只与库存产品号有关，与管理员无关，就说这是多值依赖。</span><br><span class="line">- 码</span><br><span class="line">  - 见“关系的完整性”</span><br><span class="line">- 范式</span><br><span class="line">  - 低级范式模式分解可以得到高级范式 ，这个过程叫规范化</span><br><span class="line">- 1NF</span><br><span class="line">  - 满足每个分量不可分即可</span><br><span class="line">- 2NF</span><br><span class="line">  - 在1NF的基础上：非主属性完全依赖于任何一个候选码</span><br><span class="line">  - 如（学号，专业，课程号，分数）中，码为（学号，课程号），专业并不依赖于课程号，不符合2NF。</span><br><span class="line">  - 若不符合2NF</span><br><span class="line">    - 插入异常：没选课没法插入学生信息</span><br><span class="line">    - 删除异常：退选课把自己也删了</span><br><span class="line">    - 修改复杂：若多选课，修改专业时需要修改多行</span><br><span class="line">  - 如何修改：投影分解，将不是完全函数依赖的分离开</span><br><span class="line">- 3NF</span><br><span class="line">  - 非主属性既不部分依赖，也不传递依赖于码</span><br><span class="line">  - （学号，专业，院楼）中，专业依赖于学号，院楼依赖于专业，间接依赖于学号，不符合3NF。</span><br><span class="line">  - 不符合3NF会有类似2NF的问题，如改专业了，同时修改（专业，院楼）</span><br><span class="line">- BCNF</span><br><span class="line">  - 每一个决定因素都包含码</span><br><span class="line">  - 即，依赖于码的同时，不能依赖于非码（不包含码的）</span><br><span class="line">- 4NF</span><br><span class="line">  - 不允许非平凡非函数依赖的多值依赖</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 概念模型</span><br><span class="line"></span><br><span class="line">- 特点：</span><br><span class="line">  - 真实反映现实世界</span><br><span class="line">  - 易于理解</span><br><span class="line">  - 易于更改</span><br><span class="line">  - 易于向其他数据模型转换</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 事务 检查点恢复</span><br><span class="line"></span><br><span class="line">- 要么不做，要么全做</span><br><span class="line"></span><br><span class="line">- ```sql</span><br><span class="line">  BEGIN TRANSACTION</span><br><span class="line">  COMMIT</span><br><span class="line">  ROLLBACK;</span><br></pre></td></tr></table></figure>
-</code></pre>
+</ul>
+<h2 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h2><ul>
+<li><p>更一般性的约束</p>
 </li>
+<li><p>创建断言</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ASSERTION <span class="operator">&lt;</span>断言名<span class="operator">&gt;</span> <span class="operator">&lt;</span><span class="keyword">CHECK</span>子句<span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> ASSERTION ASSE_SC_SNUM_MAX</span><br><span class="line">	<span class="keyword">CHECK</span>(<span class="number">60</span> <span class="operator">&gt;=</span> <span class="keyword">ALL</span>(<span class="keyword">SELECT</span> <span class="built_in">count</span>(<span class="operator">*</span>)</span><br><span class="line">                   <span class="keyword">FROM</span> SC</span><br><span class="line">                   <span class="keyword">GROUP</span> <span class="keyword">BY</span>(cno))</span><br><span class="line">         );</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除断言</p>
+<ul>
+<li>drop assertion <assertion_name></li>
+</ul>
+</li>
+<li><p>在SQL考察</p>
+</li>
+</ul>
+<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><ul>
+<li>类似于钩子</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> <span class="operator">&lt;</span>触发器名<span class="operator">&gt;</span></span><br><span class="line">&#123;BEFORE<span class="operator">|</span>AFTER&#125; <span class="operator">&lt;</span>事件<span class="operator">&gt;</span> <span class="keyword">ON</span> <span class="operator">&lt;</span>表名<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">REFERENCING</span> <span class="keyword">NEW</span><span class="operator">|</span><span class="keyword">OLD</span> <span class="type">ROW</span> <span class="keyword">AS</span> <span class="operator">&lt;</span>变量<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> &#123;<span class="type">ROW</span><span class="operator">|</span>STATEMENT&#125; <span class="comment">/* 行级/语句级 */</span></span><br><span class="line">[<span class="keyword">WHEN</span> <span class="operator">&lt;</span>条件<span class="operator">&gt;</span>] <span class="operator">&lt;</span>触发动作<span class="operator">&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">事件 = INSERT | DELETE | UPDATE | ... OR ... | UPDATE OF &lt;列&gt;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>触发器只能定义在基本表上，而非视图</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 当对SC的表修改，新成绩增加了超过10%，则记录到另一个表里 */</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> TRI_SC_LOG</span><br><span class="line">AFTER <span class="keyword">UPDATE</span> <span class="keyword">ON</span> SC</span><br><span class="line"><span class="keyword">REFERENCING</span></span><br><span class="line">	<span class="keyword">NEW</span> <span class="type">ROW</span> <span class="keyword">AS</span> NEW_ROW</span><br><span class="line">	<span class="keyword">OLD</span> <span class="type">ROW</span> <span class="keyword">AS</span> OLD_ORW</span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> <span class="type">ROW</span></span><br><span class="line"><span class="keyword">WHEN</span> (NEW_ROW.Grade <span class="operator">&gt;</span> OLD_ROW.Grade <span class="operator">*</span> <span class="number">1.1</span>)</span><br><span class="line">	<span class="keyword">INSERT</span> <span class="keyword">INTO</span> SC_L</span><br><span class="line">	<span class="keyword">VALUES</span>(NEW_ROW.Sno, NEW_ROW.Cno, NEW_ROW.Grade, OLD_ROW.Grade);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>删除触发器</p>
+<ul>
+<li>drop trigger <trigger_name> on <table_name></li>
+</ul>
+</li>
+<li><p>在SQL考察</p>
+</li>
+</ul>
+<h2 id="范式"><a href="#范式" class="headerlink" title="范式"></a>范式</h2><ul>
+<li><p>多种数据依赖</p>
+<ul>
+<li>函数依赖<ul>
+<li>由学号确定姓名，y &#x3D; f(x) 的关系；x一样，y一定一样：x -&gt; y；x称为决定因素</li>
+<li>x -&gt; y &amp;&amp; x 的任意真子集 -\-&gt; y，那么y完全函数依赖于x；与之相对是部分函数依赖</li>
+</ul>
+</li>
+<li>多值依赖<ul>
+<li>有这样一个关系 &lt;仓库管理员，仓库号，库存产品号&gt; ，假设一个产品只能放到一个仓库中，但是一个仓库可以有若干管理员，那么对应于一个 &lt;仓库管理员，库存产品号&gt;有一个仓库号，而实际上，这个仓库号只与库存产品号有关，与管理员无关，就说这是多值依赖。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>码</p>
+<ul>
+<li>见“关系的完整性”</li>
+</ul>
+</li>
+<li><p>范式</p>
+<ul>
+<li>低级范式模式分解可以得到高级范式 ，这个过程叫规范化</li>
+</ul>
+</li>
+<li><p>1NF</p>
+<ul>
+<li>满足每个分量不可分即可</li>
+</ul>
+</li>
+<li><p>2NF</p>
+<ul>
+<li>在1NF的基础上：非主属性完全依赖于任何一个候选码</li>
+<li>如（学号，专业，课程号，分数）中，码为（学号，课程号），专业并不依赖于课程号，不符合2NF。</li>
+<li>若不符合2NF<ul>
+<li>插入异常：没选课没法插入学生信息</li>
+<li>删除异常：退选课把自己也删了</li>
+<li>修改复杂：若多选课，修改专业时需要修改多行</li>
+</ul>
+</li>
+<li>如何修改：投影分解，将不是完全函数依赖的分离开</li>
+</ul>
+</li>
+<li><p>3NF</p>
+<ul>
+<li>非主属性既不部分依赖，也不传递依赖于码</li>
+<li>（学号，专业，院楼）中，专业依赖于学号，院楼依赖于专业，间接依赖于学号，不符合3NF。</li>
+<li>不符合3NF会有类似2NF的问题，如改专业了，同时修改（专业，院楼）</li>
+</ul>
+</li>
+<li><p>BCNF</p>
+<ul>
+<li>每一个决定因素都包含码</li>
+<li>即，依赖于码的同时，不能依赖于非码（不包含码的）</li>
+</ul>
+</li>
+<li><p>4NF</p>
+<ul>
+<li>不允许非平凡非函数依赖的多值依赖</li>
+</ul>
+</li>
+</ul>
+<h2 id="概念模型-1"><a href="#概念模型-1" class="headerlink" title="概念模型"></a>概念模型</h2><ul>
+<li>特点：<ul>
+<li>真实反映现实世界</li>
+<li>易于理解</li>
+<li>易于更改</li>
+<li>易于向其他数据模型转换</li>
+</ul>
+</li>
+</ul>
+<h2 id="事务-检查点恢复"><a href="#事务-检查点恢复" class="headerlink" title="事务 检查点恢复"></a>事务 检查点恢复</h2><ul>
+<li>要么不做，要么全做</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> TRANSACTION</span><br><span class="line"><span class="keyword">COMMIT</span></span><br><span class="line"><span class="keyword">ROLLBACK</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li><p>ACID</p>
 <ul>
 <li>原子性：不做、全做</li>
